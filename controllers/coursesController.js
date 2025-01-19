@@ -86,7 +86,7 @@ class CourseController {
                     message: `Invalid course ID: ${id}.`,
                 });
             }
-            const deletedCourse = await CourseModel.findById(id);
+            const deletedCourse = await CourseModel.findByIdAndDelete(id);
             if (!deletedCourse) {
                 return res.status(404).json({
                     status: "failed",
@@ -94,7 +94,6 @@ class CourseController {
                 });
             }
             await LessonModel.deleteMany({ course: id });
-            await CourseModel.deleteOne();
             res.status(200).json({
                 status: "success",
                 message: "Course deleted successfully.",
